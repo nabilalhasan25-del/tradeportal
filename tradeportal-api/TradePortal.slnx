@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TradePortal.Api/TradePortal.Api.csproj" />
+  <Project Path="TradePortal.Application/TradePortal.Application.csproj" />
+  <Project Path="TradePortal.Domain/TradePortal.Domain.csproj" />
+  <Project Path="TradePortal.Infrastructure/TradePortal.Infrastructure.csproj" />
+</Solution>

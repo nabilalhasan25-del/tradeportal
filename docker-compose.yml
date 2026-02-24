@@ -1,0 +1,44 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: tradeportal
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./tradeportal-api
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=tradeportal;Uid=root;Pwd=rootpassword;
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - backend_uploads:/app/wwwroot/uploads
+
+  frontend:
+    build:
+      context: ./tradeportal-ui
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8080
+    restart: always
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
+  backend_uploads:

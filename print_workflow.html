@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مخطط سير عمل بوابة التجارة</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding: 40px;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: inline-block;
+            min-width: 800px;
+        }
+        h1 {
+            color: #1a4d2e;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+        }
+        .print-btn {
+            background-color: #1a4d2e;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            font-family: inherit;
+        }
+        .print-btn:hover {
+            background-color: #d4af37;
+        }
+        @media print {
+            .print-btn { display: none; }
+            body { padding: 0; background-color: white; }
+            .container { box-shadow: none; border: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>مخطط المسار القانوني - بوابة التجارة</h1>
+        <div class="mermaid">
+graph TD
+    %% Roles Definition
+    Start((بداية الطلب))
+    Prov[موظف المحافظة]
+    Audit[المدقق المركزي]
+    Expert[خبير الملكية]
+    Director[مدير الشركات]
+    Minister[معاون الوزير]
+    Registrar[موظف السجل التجاري]
+    Finished((حجز قطعي))
+
+    %% Path
+    Start --> Prov
+    Prov -- "تنبيه الاسم الأجنبي + فاتورة ريف دمشق" --> Prov
+    Prov -- "تقديم الطلب بعد الدفع" --> Audit
+    
+    Audit -- "قبول مبدئي" --> Expert
+    Audit -- "إعادة للنقص" --> Prov
+
+    subgraph "مديرية حماية الملكية"
+        Expert -- "تقرير فني" --> Director
+        Director -- "توصية واعتماد" --> Minister
+        
+        %% Return Paths (Centralized)
+        Minister -- "طلب تعديل اسم" --> Director
+        Director -- "إعادة للدراسة" --> Expert
+        Expert -- "تحديث التقرير" --> Audit
+    end
+
+    Minister -- "اعتماد نهائي" --> Registrar
+    Minister -- "رفض قطعي" --> Audit
+    
+    Audit -- "تبليغ موظف المحافظة بالقرار" --> Prov
+
+    subgraph "نظام الحجز والدورة القانونية"
+        Registrar -- "إدخال رقم السجل خلال 15 يوماً" --> Finished
+        Registrar -- "انقضاء المدة دون سجل" --> Cancelled[حجز ملغى تلقائياً]
+        Registrar -- "شطب يدوي (إغلاق الشركة)" --> Released[تحرير الاسم]
+    end
+
+    %% Styles
+    style Prov fill:#fce4ec,stroke:#d81b60,stroke-width:2px
+    style Audit fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px
+    style Minister fill:#fff3e0,stroke:#fb8c00,stroke-width:2px
+    style Finished fill:#e8f5e9,stroke:#43a047,stroke-width:2px
+    style Cancelled fill:#ffebee,stroke:#e53935,stroke-width:2px
+    style Expert fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px
+    style Director fill:#f1f8e9,stroke:#7cb342,stroke-width:2px
+        </div>
+        <button class="print-btn" onclick="window.print()">طباعة المخطط (PDF)</button>
+    </div>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default', fontFamily: 'Segoe UI' });
+    </script>
+</body>
+</html>

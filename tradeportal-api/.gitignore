@@ -1,0 +1,48 @@
+# .NET Ignore Rules
+bin/
+obj/
+out/
+.vscode/
+.idea/
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+asmmeta/
+[Nn]ative/
+
+# Local settings
+appsettings.Development.json
+appsettings.Local.json
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project-specific logs and temp files
+build_errors.txt
+build_errors_std.txt
+build_output.txt
+models.json
+models_beta.json
+query

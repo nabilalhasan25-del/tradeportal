@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* تعريف المتغيرات اللونية الأساسية بناءً على الهوية البصرية السورية (SYID) */
+:root {
+  /* الوضع النهاري - محسن بتباين أعلى */
+  --background: #f1f5f9;
+  /* Slate 100 لتباين أفضل مع البطاقات البيضاء */
+  --foreground: #0f172a;
+
+  --sy-red: #CE1126;
+  /* الأحمر السيادي */
+  --sy-green: #007A3D;
+  /* الأخضر السيادي (Forest Green) - اللون السائد */
+  --sy-gold: #B8860B;
+  /* الذهبي الرسمي */
+
+  --primary: var(--sy-green);
+  /* اللون السائد هو الأخضر بناءً على طلبك */
+
+  --card-bg: #ffffff;
+  --border-color: #94a3b8;
+  /* Slate 400 - حدود أكثر وضوحاً وصرامة */
+  --ring-color: rgba(0, 122, 61, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-sy-red: var(--sy-red);
+  --color-sy-green: var(--sy-green);
+  --color-sy-gold: var(--sy-gold);
+  --color-primary: var(--primary);
+
+  --color-card: var(--card-bg);
+  --color-border: var(--border-color);
+}
+
+/* الوضع الليلي - مريح للعين ورسمي */
+/* يدعم التبديل اليدوي عبر الكلاس .dark أو تلقائياً حسب النظام */
+.dark {
+  --background: #0b0e14;
+  --foreground: #f1f5f9;
+
+  --card-bg: #151921;
+  --border-color: #1e293b;
+  --primary: var(--sy-green);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* تنسيقات عامة للبطاقات والأسطح */
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  /* زوايا دائرية أكثر حداثة */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+}

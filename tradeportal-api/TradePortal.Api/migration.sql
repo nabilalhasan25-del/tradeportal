@@ -1,0 +1,204 @@
+﻿START TRANSACTION;
+ALTER TABLE `Requests` ADD `IpExpertFeedback` longtext CHARACTER SET utf8mb4 NULL;
+
+ALTER TABLE `Requests` ADD `IpExpertId` int NULL;
+
+UPDATE `ChecklistTemplates` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 1;
+SELECT ROW_COUNT();
+
+
+UPDATE `ChecklistTemplates` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 2;
+SELECT ROW_COUNT();
+
+
+UPDATE `ChecklistTemplates` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 3;
+SELECT ROW_COUNT();
+
+
+UPDATE `ChecklistTemplates` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 4;
+SELECT ROW_COUNT();
+
+
+UPDATE `ChecklistTemplates` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 5;
+SELECT ROW_COUNT();
+
+
+UPDATE `CompanyTypes` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 1;
+SELECT ROW_COUNT();
+
+
+UPDATE `CompanyTypes` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 2;
+SELECT ROW_COUNT();
+
+
+UPDATE `CompanyTypes` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 3;
+SELECT ROW_COUNT();
+
+
+UPDATE `CompanyTypes` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 4;
+SELECT ROW_COUNT();
+
+
+UPDATE `CompanyTypes` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 5;
+SELECT ROW_COUNT();
+
+
+UPDATE `Provinces` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 1;
+SELECT ROW_COUNT();
+
+
+UPDATE `Provinces` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 2;
+SELECT ROW_COUNT();
+
+
+UPDATE `Provinces` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 3;
+SELECT ROW_COUNT();
+
+
+UPDATE `Provinces` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 4;
+SELECT ROW_COUNT();
+
+
+UPDATE `Provinces` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 5;
+SELECT ROW_COUNT();
+
+
+UPDATE `Provinces` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 6;
+SELECT ROW_COUNT();
+
+
+UPDATE `Provinces` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 7;
+SELECT ROW_COUNT();
+
+
+UPDATE `RequestStatuses` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 1;
+SELECT ROW_COUNT();
+
+
+UPDATE `RequestStatuses` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 2;
+SELECT ROW_COUNT();
+
+
+UPDATE `RequestStatuses` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 3;
+SELECT ROW_COUNT();
+
+
+UPDATE `RequestStatuses` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 4;
+SELECT ROW_COUNT();
+
+
+UPDATE `RequestStatuses` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 5;
+SELECT ROW_COUNT();
+
+
+UPDATE `RequestStatuses` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 6;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 1;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 2;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 3;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 4;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 5;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 6;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 7;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 8;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 9;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 10;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 11;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 12;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 13;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 14;
+SELECT ROW_COUNT();
+
+
+UPDATE `SystemSettings` SET `CreatedAt` = TIMESTAMP '2026-02-15 06:35:41'
+WHERE `Id` = 15;
+SELECT ROW_COUNT();
+
+
+CREATE INDEX `IX_Requests_IpExpertId` ON `Requests` (`IpExpertId`);
+
+ALTER TABLE `Requests` ADD CONSTRAINT `FK_Requests_AspNetUsers_IpExpertId` FOREIGN KEY (`IpExpertId`) REFERENCES `AspNetUsers` (`Id`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20260215063542_AddIpExpertFields', '9.0.0');
+
+COMMIT;
+
