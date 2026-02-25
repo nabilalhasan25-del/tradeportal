@@ -58,11 +58,51 @@ public class NameValidationService
 
         if (companyTypeName != null)
         {
-            // Simple check: name should contain the legal form or part of it
-            // Commercial circulars usually require it at the end
-            if (!nameAr.EndsWith(companyTypeName) && !nameAr.Contains(companyTypeName))
+            // NEW: Global Rule - Every company name must start with "شركة"
+            if (!nameAr.StartsWith("شركة"))
             {
-                result.Errors.Add($"يجب أن ينتهي اسم الشركة باللاحقة القانونية: ({companyTypeName})");
+                result.Errors.Add("يجب أن يبدأ اسم الشركة دائماً بكلمة (شركة).");
+            }
+
+            // Law 29 of 2011 - Detailed Rules per Company Type
+            if (companyTypeName.Contains("تضامن")) 
+            {
+                // Article 30: Names of partners + "and partners"
+                if (!nameAr.Contains("وشركا") && !nameAr.Contains("وشركاه"))
+                {
+                    result.Errors.Add("بناءً على المادة 30: يجب أن يتألف اسم شركة التضامن من أسماء الشركاء مع إضافة (وشركاه) أو (وشركاهم).");
+                }
+            }
+            else if (companyTypeName.Contains("توصية"))
+            {
+                // Article 45: Only joint partners names
+                if (!nameAr.Contains("وشركا") && !nameAr.Contains("وشركاه"))
+                {
+                    result.Warnings.Add("بناءً على المادة 45: شركة التوصية تتضمن أسماء المتضامنين فقط، وينصح بإلحاقها بكلمة (وشركاه).");
+                }
+            }
+            else if (companyTypeName.Contains("محدودة المسؤولية"))
+            {
+                // Article 57: Mandatory prefix "شركة" and suffix "محدودة المسؤولية"
+                if (!nameAr.EndsWith("محدودة المسؤولية"))
+                {
+                    result.Errors.Add("بناءً على المادة 57: يجب أن ينتهي اسم الشركة بعبارة (محدودة المسؤولية).");
+                }
+            }
+            else if (companyTypeName.Contains("مساهمة"))
+            {
+                // Article 88: Mandatory suffix (Public or Private)
+                if (!nameAr.Contains("مساهمة مغفلة") && !nameAr.Contains("مساهمة عامة"))
+                {
+                    result.Errors.Add("بناءً على المادة 88: يجب أن يتضمن اسم الشركة عبارة (مساهمة مغفلة) مع تحديد صفتها (عامة أو خاصة).");
+                }
+            }
+            
+            // General Rule (Circular 767/2017 - Article 9): Activity Suffix
+            var commonActivities = new[] { "تجارة", "صناعة", "خدمات", "تطوير", "استثمار", "تكنولوجيا", "نقل", "تعهدات", "مقاولات" };
+            if (!commonActivities.Any(a => nameAr.Contains(a)))
+            {
+                result.Warnings.Add("تنبيه (مادة 9): يجب أن يتضمن اسم الشركة ما يدل على نشاطها (مثلاً: للتجارة، للمقاولات، إلخ).");
             }
         }
 
@@ -107,8 +147,8 @@ public class NameValidationService
             }
         }
 
-        // 6. AI Golden Advice (Mock for now, will integrate Gemini)
-        result.GoldenAdvice = await GetAIGoldenAdvice(nameAr, nameEn, result.SimilarExistingNames);
+        // 6. AI Golden Advice (Based on Legal Rules & Company Type)
+        result.GoldenAdvice = await GetAIGoldenAdvice(nameAr, nameEn, companyTypeName ?? "غير محدد", result.SimilarExistingNames);
 
         result.IsValid = result.Errors.Count == 0;
         return result;
@@ -153,7 +193,7 @@ public class NameValidationService
         return 1.0 - (d[n, m] / maxLen);
     }
 
-    private async Task<string> GetAIGoldenAdvice(string nameAr, string nameEn, List<SimilarNameDto> similarNames)
+    private async Task<string> GetAIGoldenAdvice(string nameAr, string nameEn, string companyType, List<SimilarNameDto> similarNames)
     {
         var settings = await _context.SystemSettings
             .Where(s => s.Group == "AI")
@@ -178,19 +218,35 @@ public class NameValidationService
         try
         {
             var jsonRules = File.ReadAllText(_rulesFilePath);
-            var systemPrompt = $@"أنت المستشار القانوني الأول والخبير اللغوي المعتمد لدى وزارة التجارة الداخلية وحماية المستهلك في سوريا. 
-مهمتك هي تقديم تحليل 'عميق واحترافي' للأسماء التجارية المقترحة صرا باللغة العربية الفصحى. 
-**تحذير صارم**: يمنع منعاً باتاً استخدام أي حروف صينية أو لاتينية أو أي لغة غير العربية في التحليل، إلا عند ذكر الاسم الأجنبي المقترح.
+            var systemPrompt = $@"أنت المستشار القانوني والخبير اللغوي والرقابي بوزارة التجارة السورية.
+مهمتك: فحص الأسماء التجارية بصرامة 'صفر تسمح' (Zero Tolerance) مع المخالفات الجوهرية.
 
-بناءً على القواعد التالية:
+**يجب الرفض الصريح (Hard Reject) في الحالات التالية:**
+1. **الأسماء والإيحاءات الدينية**: 
+   - أي اسم لسورة من القرآن (المزمل، النبأ، الإسراء...).
+   - أسماء الأنبياء، الصحابة، أو الرموز الدينية المقدسة.
+   - **جديد**: أي اسم يوحي أو يلمح لمحتوى ديني، أو يحمل صبغة روحانية أو دعوية، أو كلمات ترتبط حصراً بالشعائر الدينية.
+2. **العلامات العالمية**: أي اسم يشبه لفظاً أو معنى علامة تجارية عالمية مشهورة (نايك، أديداس، آبل، سامسونج) حتى لو كتب بالعربي أو ألحق بـ 'وشركاه'.
+3. **الجغرافيا والسياسة**: أسماء الدول أو المدن أو الرموز السياسية.
+
+**قواعد العمل**:
+- كن 'عين الوزارة' التي لا تغفل عن الأسماء المبطنة أو التي تلتف على القانون بإيحاءات دينية.
+- التزم بنوع الشركة: {companyType}.
+- الاختصار: 120 كلمة كحد أقصى.
+- اللغة: العربية الفصحى فقط.
+- التزام بالقواعد القانونية حرفياً:
 {jsonRules}";
 
-            var userPrompt = $@"البيانات:
-- الاسم (عربي): {nameAr}
-- الاسم (إنكليزي): {nameEn}
-- مشابهات محددة: {(similarNames.Any() ? string.Join("، ", similarNames.Select(s => s.Name)) : "لا يوجد")}
+            var userPrompt = $@"حلل الاسم التالي لنوع ({companyType}):
+الاسم العربي: {nameAr}
+الاسم الأجنبي: {nameEn}
+المشابهات: {(similarNames.Any() ? string.Join("، ", similarNames.Select(s => s.Name)) : "لا يوجد")}
 
-المطلوب: تقديم 'التقرير الذهبي الاستشاري' (قانوني، تمييز، براندينج، 3 بدائل ذهبية). استخدم Markdown وتحدث كخبير (أنا أرى.. أنصح..).";
+المطلوب بوضوح:
+- [الرأي القانوني]: فحص مخالفات (دين، سياسة، جغرافيا، رموز، لغة).
+- [التقييم التجاري]: هل الاسم مميز؟
+- [القرار النهائي]: (مقبول / مرفوض مع ذكر السبب القانوني الصريح).
+- [البدائل]: 3 بدائل قانونية قصيرة إذا كان هناك رفض.";
 
             HttpResponseMessage response;
             if (provider.Equals("Gemini", StringComparison.OrdinalIgnoreCase))
