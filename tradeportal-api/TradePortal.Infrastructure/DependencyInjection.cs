@@ -60,6 +60,24 @@ public static class DependencyInjection
             }
         }
 
+        // DB DEBUG: Print final decision and scan environment keys
+        var debugConn = string.IsNullOrEmpty(connectionString) ? "NULL" : 
+                       (connectionString.Contains("localhost") ? "DEFAULT_LOCALHOST" : "OVERRIDDEN_BY_ENV");
+        Console.WriteLine($"[DB DEBUG] Connection Source Detected: {debugConn}");
+        
+        if (debugConn != "OVERRIDDEN_BY_ENV")
+        {
+            Console.WriteLine("[DB DEBUG] Scanning configuration keys starting with 'MYSQL' or 'Connection'...");
+            foreach (var kvp in configuration.AsEnumerable())
+            {
+                if (kvp.Key.Contains("MYSQL", StringComparison.OrdinalIgnoreCase) || 
+                    kvp.Key.Contains("Connection", StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine($"[DB DEBUG] Key Found: {kvp.Key} (Length: {kvp.Value?.Length ?? 0})");
+                }
+            }
+        }
+
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33)),
                 mysqlOptions => mysqlOptions

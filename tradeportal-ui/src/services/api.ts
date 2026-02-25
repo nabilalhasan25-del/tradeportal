@@ -4,7 +4,7 @@
  * جميع البيانات تأتي من الـ API الحقيقي — لا بيانات وهمية
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 interface ApiOptions {
     method?: string;

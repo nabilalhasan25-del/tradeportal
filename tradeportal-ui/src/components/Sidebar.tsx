@@ -75,7 +75,7 @@ export default function Sidebar() {
             )}
 
             <aside className={`
-                fixed lg:sticky top-16 lg:top-0 right-0 z-40 
+                fixed top-16 right-0 z-40 
                 w-64 h-[calc(100vh-64px)] 
                 bg-card border-l border-border shadow-xl
                 flex flex-col transition-transform duration-300 ease-in-out

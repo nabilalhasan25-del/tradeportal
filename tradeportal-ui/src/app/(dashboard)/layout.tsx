@@ -58,7 +58,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
                 {!shouldHideSidebar && <Sidebar />}
 
                 {/* المحتوى الرئيسي المتغير - يتمدد بالكامل إذا كانت القائمة مخفية */}
-                <main className={`flex-1 overflow-y-auto bg-background/30 w-full transition-all duration-300 ${shouldHideSidebar ? 'p-2 md:p-4' : 'p-4 md:p-8'}`}>
+                <main className={`flex-1 overflow-y-auto bg-background/30 w-full transition-all duration-300 ${shouldHideSidebar ? 'p-2 md:p-4' : 'p-4 md:p-8 lg:mr-64'}`}>
                     <div className={`${shouldHideSidebar ? 'max-w-full' : 'max-w-7xl'} mx-auto space-y-8 h-full`}>
                         <RouteGuard>
                             {children}
