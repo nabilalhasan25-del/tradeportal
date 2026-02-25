@@ -27,7 +27,22 @@ public static class DependencyInjection
             var railwayUrl = configuration["MYSQL_URL"];
             if (!string.IsNullOrEmpty(railwayUrl))
             {
-                connectionString = railwayUrl;
+                if (railwayUrl.StartsWith("mysql://", StringComparison.OrdinalIgnoreCase))
+                {
+                    var uri = new Uri(railwayUrl);
+                    var userInfo = uri.UserInfo.Split(':');
+                    var rUser = userInfo[0];
+                    var rPass = userInfo.Length > 1 ? userInfo[1] : "";
+                    var rHost = uri.Host;
+                    var rPort = uri.Port == -1 ? 3306 : uri.Port;
+                    var rDb = uri.AbsolutePath.TrimStart('/');
+                    
+                    connectionString = $"Server={rHost};Port={rPort};Database={rDb};User={rUser};Password={rPass};SSL Mode=None;";
+                }
+                else
+                {
+                    connectionString = railwayUrl;
+                }
             }
             else
             {

@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TradePortal.Domain.Entities;
 using TradePortal.Domain.Enums;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TradePortal.Infrastructure.Data;
 
@@ -21,6 +23,11 @@ public static class TradePortalInitializer
 
         int retryCount = 0;
         const int maxRetries = 10;
+        
+        var rawConn = context.Database.GetDbConnection().ConnectionString;
+        // Mask password for safety in logs
+        var maskedConn = Regex.Replace(rawConn, @"Password=[^;]+", "Password=***");
+        logger.LogInformation("Database Initialization started. Target: {Details}", maskedConn);
         
         while (retryCount < maxRetries)
         {
