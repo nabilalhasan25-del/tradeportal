@@ -21,9 +21,38 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
+        // Fallback for Railway/Cloud environments if traditional config is missing
+        if (string.IsNullOrEmpty(connectionString) || connectionString.Contains("localhost"))
+        {
+            var railwayUrl = configuration["MYSQL_URL"];
+            if (!string.IsNullOrEmpty(railwayUrl))
+            {
+                connectionString = railwayUrl;
+            }
+            else
+            {
+                // Try individual Railway variables
+                var host = configuration["MYSQLHOST"];
+                var port = configuration["MYSQLPORT"];
+                var user = configuration["MYSQLUSER"];
+                var pass = configuration["MYSQLPASSWORD"];
+                var db = configuration["MYSQLDATABASE"];
+
+                if (!string.IsNullOrEmpty(host) && !string.IsNullOrEmpty(user))
+                {
+                    connectionString = $"Server={host};Port={port};Database={db};User={user};Password={pass};";
+                }
+            }
+        }
+
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 33)),
-                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                mysqlOptions => mysqlOptions
+                    .MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                    .EnableRetryOnFailure(
+                        maxRetryCount: 10,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null)));
 
         services.AddIdentity<User, IdentityRole<int>>(options =>
         {
